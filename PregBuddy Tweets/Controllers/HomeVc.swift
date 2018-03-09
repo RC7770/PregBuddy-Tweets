@@ -22,7 +22,7 @@ class HomeVc: UIViewController {
     
     // MARK :-
     // MARK: - Variables
-
+    let keyword = "pregnancy"
     var tweets: [TWTRTweet] = []
     var tweetsRecent: [TWTRTweet] = []
     var tweetsLiked: [TWTRTweet] = []
@@ -80,6 +80,7 @@ class HomeVc: UIViewController {
         btnRecent.layer.cornerRadius = 10;
         btnTopRetweets.layer.cornerRadius = 10;
         btnTopLiked.layer.cornerRadius = 10;
+
     }
     func selctedButtonsAction(btnSelected:UIButton,first:UIButton,second:UIButton){
         btnSelected.backgroundColor = UIColor.appRedColor()
@@ -99,16 +100,19 @@ class HomeVc: UIViewController {
             currentSelected = .recent
             tweets = tweetsRecent;
             selctedButtonsAction(btnSelected: sender, first: btnTopLiked, second: btnTopRetweets)
+            loadRecentTweets(with: "")
             
         }else if sender == btnTopLiked{
             currentSelected = .liked
             tweets = tweetsLiked;
             selctedButtonsAction(btnSelected: sender, first: btnRecent, second: btnTopRetweets)
+            loadTop10LikedTweets()
             
         }else if sender == btnTopRetweets{
             tweets = tweetsRetweets;
             currentSelected = .reTweets
             selctedButtonsAction(btnSelected: sender, first: btnRecent, second: btnTopLiked)
+            loadTop10ReTweets()
         }
         tblHomeTweets.reloadData()
     }
@@ -133,19 +137,24 @@ class HomeVc: UIViewController {
            
             return;
         }
-        var params = ["q":"pregnancy","result_type": "recent","count":"20"]
+        var params = ["q":keyword,"result_type": "recent","count":"20"]
         
         if strSince != "" {
-            params = ["q":"pregnancy","result_type": "recent","count":"20","max_id":strSince]
+            params = ["q":keyword,"result_type": "recent","count":"20","max_id":strSince]
         }
         self.loadTweets(with: params, toAdd: tweetsRecent, selected: currentSelected)
     }
     func loadTop10LikedTweets(){
-        
+        let params = ["q":keyword,"result_type": "popular","count":"50"]
+        self.loadTweets(with: params, toAdd: tweetsLiked, selected: currentSelected)
+
+
     }
     func loadTop10ReTweets(){
-        
+        let params = ["q":keyword,"result_type": "mixed","count":"50"]
+        self.loadTweets(with: params, toAdd: tweetsLiked, selected: currentSelected)
     }
+    
     fileprivate func loadTweets(with params:[String:String],toAdd arrTweets:[TWTRTweet],selected:TweetTypes){
         var arrTweets = arrTweets
         let client = TWTRAPIClient()
@@ -165,16 +174,34 @@ class HomeVc: UIViewController {
                     let i = TWTRTweet(jsonDictionary: obj)
                     arrTweets.append(i!)
                 }
-                self.tweets = arrTweets
                 switch selected {
                 case .recent:
+                    self.tweets = arrTweets
                     self.tweetsRecent = arrTweets
                     break
                 case .liked:
-                    self.tweetsLiked = arrTweets
+                    arrTweets.sort(by: { (t0, t1) -> Bool in
+                        t0.likeCount > t1.likeCount
+                    })
+                    self.tweetsLiked.removeAll()
+                    for twee in arrTweets{
+                        if self.tweetsLiked.count < 10{
+                            self.tweetsLiked.append(twee)
+                        }else{break}
+                    }
+                    self.tweets = self.tweetsLiked
                     break
                 case .reTweets:
-                    self.tweetsRetweets = arrTweets
+                    arrTweets.sort(by: { (t0, t1) -> Bool in
+                        t0.retweetCount > t1.retweetCount
+                    })
+                    self.tweetsRetweets.removeAll()
+                    for twee in arrTweets{
+                        if self.tweetsRetweets.count < 10{
+                            self.tweetsRetweets.append(twee)
+                        }else{break}
+                    }
+                    self.tweets = self.tweetsRetweets
                     break
                 }
                 DispatchQueue.main.async {
@@ -233,7 +260,7 @@ extension HomeVc :UITableViewDelegate,UITableViewDataSource{
         cell.btnBookMark.superview?.bringSubview(toFront: cell.btnBookMark)
 
         cell.btnBookMark.addTarget(self, action: #selector(btnBookmarkClicked(_:)), for: .touchUpInside)
-//        cell.subviews.last!.bringSubview(toFront: cell.btnBookMark)
+
         // Return the Tweet cell.
         return cell
     }

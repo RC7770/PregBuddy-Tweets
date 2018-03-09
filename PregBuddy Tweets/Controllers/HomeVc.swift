@@ -192,6 +192,13 @@ class HomeVc: UIViewController {
                 print("Error: \(String(describing: connectionError))")
             }
             do {
+                if data == nil{
+                    DispatchQueue.main.async {
+                        self.loader.stopAnimating()
+                    }
+                    self.showAlert(withTitle: "Error!", andMessage: "Please try again or check your interner connection")
+                    return;
+                }
                 let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String:AnyObject]
                 let me = json!["statuses"] as? [[AnyHashable:Any]]
                 for obj : [AnyHashable:Any] in me! {

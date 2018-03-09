@@ -116,9 +116,15 @@
                                     <outlet property="delegate" destination="qrs-Zz-x1E" id="VWm-2V-Zq5"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="GqK-mh-kT9">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="1" green="0.0" blue="0.065431795060000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="GqK-mh-kT9" firstAttribute="centerY" secondItem="d6t-z4-TgL" secondAttribute="centerY" id="04W-EP-sO4"/>
+                            <constraint firstItem="GqK-mh-kT9" firstAttribute="centerX" secondItem="d6t-z4-TgL" secondAttribute="centerX" id="8PT-BM-BSm"/>
                             <constraint firstItem="e5z-T5-wyu" firstAttribute="leading" secondItem="d08-XH-EcX" secondAttribute="leading" id="9dk-2W-T3J"/>
                             <constraint firstItem="e5z-T5-wyu" firstAttribute="top" secondItem="Gcy-gm-ohn" secondAttribute="bottom" id="D4d-WT-Od7"/>
                             <constraint firstItem="d08-XH-EcX" firstAttribute="trailing" secondItem="e5z-T5-wyu" secondAttribute="trailing" id="E6r-u3-QcX"/>
@@ -134,6 +140,7 @@
                         <outlet property="btnRecent" destination="PPB-NR-XTa" id="x9T-XJ-DGw"/>
                         <outlet property="btnTopLiked" destination="pwo-Fo-tIH" id="1ki-nV-XP7"/>
                         <outlet property="btnTopRetweets" destination="0iv-c2-Huf" id="ay2-gK-Hst"/>
+                        <outlet property="loader" destination="GqK-mh-kT9" id="AFb-3I-Kda"/>
                         <outlet property="tblHomeTweets" destination="e5z-T5-wyu" id="5eP-JG-dal"/>
                     </connections>
                 </viewController>

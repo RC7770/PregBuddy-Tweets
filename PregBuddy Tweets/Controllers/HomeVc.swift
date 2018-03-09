@@ -18,6 +18,7 @@ class HomeVc: UIViewController {
     @IBOutlet weak var btnTopRetweets: UIButton!
     @IBOutlet weak var tblHomeTweets: UITableView!
 
+    @IBOutlet weak var loader: UIActivityIndicatorView!
     
     
     // MARK :-
@@ -37,6 +38,10 @@ class HomeVc: UIViewController {
         case liked
         case reTweets
     }
+    lazy var bookMarkedTweets:[String] = {
+        return [String]()
+    }()
+    
     
     var currentSelected :TweetTypes = .recent
     
@@ -80,9 +85,16 @@ class HomeVc: UIViewController {
         btnRecent.layer.cornerRadius = 10;
         btnTopRetweets.layer.cornerRadius = 10;
         btnTopLiked.layer.cornerRadius = 10;
+        if (UserDefaults.standard.value(forKey: UserDefaults.Keys.bookmark) != nil) {
+            bookMarkedTweets = UserDefaults.standard.value(forKey: UserDefaults.Keys.bookmark) as! [String]
+        }else{
+            bookMarkedTweets = []
+            UserDefaults.standard.set(bookMarkedTweets, forKey: UserDefaults.Keys.bookmark)
+        }
+        UserDefaults.standard.synchronize()
 
     }
-    func selctedButtonsAction(btnSelected:UIButton,first:UIButton,second:UIButton){
+    fileprivate func selctedButtonsAction(btnSelected:UIButton,first:UIButton,second:UIButton){
         btnSelected.backgroundColor = UIColor.appRedColor()
         btnSelected.tintColor = UIColor.white
         first.backgroundColor = UIColor.white
@@ -100,6 +112,8 @@ class HomeVc: UIViewController {
             currentSelected = .recent
             tweets = tweetsRecent;
             selctedButtonsAction(btnSelected: sender, first: btnTopLiked, second: btnTopRetweets)
+            tweets.removeAll()
+            tweetsRecent.removeAll()
             loadRecentTweets(with: "")
             
         }else if sender == btnTopLiked{
@@ -118,6 +132,11 @@ class HomeVc: UIViewController {
     }
     
     @objc func btnBookmarkClicked(_ sender: UIButton){
+        let tag = sender.tag
+        let tweet = self.tweets[tag]
+        bookMarkedTweets.append(tweet.tweetID)
+        UserDefaults.standard.set(bookMarkedTweets, forKey: UserDefaults.Keys.bookmark)
+        UserDefaults.standard.synchronize()
         if sender.isSelected {
             sender.isSelected = false
         }else{
@@ -128,7 +147,7 @@ class HomeVc: UIViewController {
     // MARK :-
     // MARK: - Load Tweets
     
-    func loadRecentTweets(with strSince:String){
+    fileprivate func loadRecentTweets(with strSince:String){
         if self.tweets.count >= 100 {
             if !recentTweetAlertShowd{
                 self.showAlert(withTitle: "Alert!", andMessage: "Recent 100 Tweets loaded");
@@ -144,18 +163,19 @@ class HomeVc: UIViewController {
         }
         self.loadTweets(with: params, toAdd: tweetsRecent, selected: currentSelected)
     }
-    func loadTop10LikedTweets(){
+    fileprivate func loadTop10LikedTweets(){
         let params = ["q":keyword,"result_type": "popular","count":"50"]
         self.loadTweets(with: params, toAdd: tweetsLiked, selected: currentSelected)
 
 
     }
-    func loadTop10ReTweets(){
+    fileprivate func loadTop10ReTweets(){
         let params = ["q":keyword,"result_type": "mixed","count":"50"]
         self.loadTweets(with: params, toAdd: tweetsLiked, selected: currentSelected)
     }
     
     fileprivate func loadTweets(with params:[String:String],toAdd arrTweets:[TWTRTweet],selected:TweetTypes){
+        loader.startAnimating()
         var arrTweets = arrTweets
         let client = TWTRAPIClient()
         ///search/tweets.json
@@ -205,6 +225,7 @@ class HomeVc: UIViewController {
                     break
                 }
                 DispatchQueue.main.async {
+                    self.loader.stopAnimating()
                     self.tblHomeTweets.reloadData()
                 }
             } catch let jsonError as NSError {
@@ -256,11 +277,16 @@ extension HomeVc :UITableViewDelegate,UITableViewDataSource{
         
         // Configure the cell with the Tweet.
         cell.configure(with: tweet)
-//        cell.btnBookMark.layer.zPosition = 1
         cell.btnBookMark.superview?.bringSubview(toFront: cell.btnBookMark)
-
+        cell.btnBookMark.tag = indexPath.row
         cell.btnBookMark.addTarget(self, action: #selector(btnBookmarkClicked(_:)), for: .touchUpInside)
 
+        if bookMarkedTweets.contains(tweet.tweetID) {
+            cell.btnBookMark.isSelected = true
+        }else{
+            cell.btnBookMark.isSelected = false
+        }
+        
         // Return the Tweet cell.
         return cell
     }
@@ -273,7 +299,6 @@ extension HomeVc :UITableViewDelegate,UITableViewDataSource{
         return TWTRTweetTableViewCell.height(for: tweet, style: TWTRTweetViewStyle.compact, width: self.view.bounds.width, showingActions: false)
     }
 
-    
     
 }
 

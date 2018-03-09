@@ -33,6 +33,8 @@ class HomeVc: UIViewController {
     let tweetTableCellReuseIdentifier = "HomeTweetCell"
     var isLoadingTweets = false
     var recentTweetAlertShowd = false
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     enum TweetTypes {
         case recent
         case liked
@@ -82,6 +84,7 @@ class HomeVc: UIViewController {
     // MARK: - Helper Methods
     
     fileprivate func setUp() {
+        tblHomeTweets.tableFooterView = UIView.init(frame: CGRect.zero)        
         btnRecent.layer.cornerRadius = 10;
         btnTopRetweets.layer.cornerRadius = 10;
         btnTopLiked.layer.cornerRadius = 10;
@@ -137,6 +140,7 @@ class HomeVc: UIViewController {
         bookMarkedTweets.append(tweet.tweetID)
         UserDefaults.standard.set(bookMarkedTweets, forKey: UserDefaults.Keys.bookmark)
         UserDefaults.standard.synchronize()
+        appDelegate.bookmarkTweets.append(tweet)
         if sender.isSelected {
             sender.isSelected = false
         }else{

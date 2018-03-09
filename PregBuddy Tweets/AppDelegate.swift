@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     fileprivate var consumer_key: String = ""
     fileprivate  var consumer_secret: String = ""
-
+    open var bookmarkTweets:[TWTRTweet] = []
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         if let url = Bundle.main.url(forResource:"Twitter", withExtension: "plist") {
             do {

@@ -17,10 +17,36 @@
                     <view key="view" contentMode="scaleToFill" id="UMd-d2-Wch">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2zC-J9-FUR">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="8j6-ZG-3oz" id="PXr-xP-uud"/>
+                                    <outlet property="delegate" destination="8j6-ZG-3oz" id="sc6-Dr-1Vh"/>
+                                </connections>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Is0-Ga-kfW">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="1" green="0.0" blue="0.065431795060000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="RDM-89-QIK" firstAttribute="bottom" secondItem="2zC-J9-FUR" secondAttribute="bottom" id="8Ea-Dg-tn2"/>
+                            <constraint firstItem="Is0-Ga-kfW" firstAttribute="centerY" secondItem="UMd-d2-Wch" secondAttribute="centerY" id="GBZ-ys-7AE"/>
+                            <constraint firstItem="Is0-Ga-kfW" firstAttribute="centerX" secondItem="UMd-d2-Wch" secondAttribute="centerX" id="IHG-cy-FEN"/>
+                            <constraint firstItem="2zC-J9-FUR" firstAttribute="top" secondItem="RDM-89-QIK" secondAttribute="top" id="Roq-Tf-cde"/>
+                            <constraint firstItem="RDM-89-QIK" firstAttribute="trailing" secondItem="2zC-J9-FUR" secondAttribute="trailing" id="aEf-rG-iJm"/>
+                            <constraint firstItem="2zC-J9-FUR" firstAttribute="leading" secondItem="RDM-89-QIK" secondAttribute="leading" id="yIM-o8-gEV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="RDM-89-QIK"/>
                     </view>
                     <navigationItem key="navigationItem" title="Bookmark Tweets" id="uBf-Xn-QDc"/>
+                    <connections>
+                        <outlet property="loader" destination="Is0-Ga-kfW" id="Ptt-N4-U6g"/>
+                        <outlet property="tblBookmark" destination="2zC-J9-FUR" id="crq-uS-kg4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mAh-bC-92t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -31,7 +31,7 @@ class HomeVc: UIViewController {
     var prototypeCell: HomeTweetCell?
     let tweetTableCellReuseIdentifier = "HomeTweetCell"
     var isLoadingTweets = false
-    
+    var recentTweetAlertShowd = false
     enum TweetTypes {
         case recent
         case liked
@@ -126,6 +126,11 @@ class HomeVc: UIViewController {
     
     func loadRecentTweets(with strSince:String){
         if self.tweets.count >= 100 {
+            if !recentTweetAlertShowd{
+                self.showAlert(withTitle: "Alert!", andMessage: "Recent 100 Tweets loaded");
+                recentTweetAlertShowd = true
+            }
+           
             return;
         }
         var params = ["q":"pregnancy","result_type": "recent","count":"20"]
@@ -242,5 +247,28 @@ extension HomeVc :UITableViewDelegate,UITableViewDataSource{
     }
 
     
+    
+}
+
+
+extension UIViewController{
+    func showAlert(withTitle title:String, andMessage msg : String){
+        let alert = UIAlertController(title: title, message: msg, preferredStyle: UIAlertControllerStyle.alert)
+
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { action in
+            switch action.style{
+            case .default:
+                print("default")
+                
+            case .cancel:
+                print("cancel")
+                
+            case .destructive:
+                print("destructive")
+                
+            }}))
+        self.present(alert, animated: true, completion: nil)
+    }
+
     
 }

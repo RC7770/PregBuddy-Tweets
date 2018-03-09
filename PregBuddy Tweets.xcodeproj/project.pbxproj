@@ -18,6 +18,7 @@
 		EB2DADC32052416800C15D07 /* BookmarkVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DADC22052416800C15D07 /* BookmarkVc.swift */; };
 		EB2DADC5205245FB00C15D07 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DADC4205245FB00C15D07 /* AppColors.swift */; };
 		EB350E2620524CC00076EF6B /* HomeTweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB350E2520524CC00076EF6B /* HomeTweetCell.swift */; };
+		EB350E282052524B0076EF6B /* Twitter.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB350E272052524B0076EF6B /* Twitter.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		EB2DADC22052416800C15D07 /* BookmarkVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkVc.swift; sourceTree = "<group>"; };
 		EB2DADC4205245FB00C15D07 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		EB350E2520524CC00076EF6B /* HomeTweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTweetCell.swift; sourceTree = "<group>"; };
+		EB350E272052524B0076EF6B /* Twitter.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Twitter.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				EB2DAD9E20523BC800C15D07 /* Info.plist */,
+				EB350E272052524B0076EF6B /* Twitter.plist */,
 				EB2DAD9920523BC800C15D07 /* Assets.xcassets */,
 				EB2DAD9B20523BC800C15D07 /* LaunchScreen.storyboard */,
 				EB2DAD9220523BC800C15D07 /* AppDelegate.swift */,
@@ -302,6 +305,7 @@
 			files = (
 				EB2DAD9D20523BC800C15D07 /* LaunchScreen.storyboard in Resources */,
 				EB2DAD9A20523BC800C15D07 /* Assets.xcassets in Resources */,
+				EB350E282052524B0076EF6B /* Twitter.plist in Resources */,
 				EB2DAD9820523BC800C15D07 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

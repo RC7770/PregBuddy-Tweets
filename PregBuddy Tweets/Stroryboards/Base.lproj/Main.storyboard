@@ -91,18 +91,19 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-Oh-EVN">
-                                                    <rect key="frame" x="305" y="5" width="40" height="40"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wpt-Oh-EVN">
+                                                    <rect key="frame" x="295" y="-2" width="40" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="40" id="aeO-Vt-MLR"/>
                                                         <constraint firstAttribute="height" constant="40" id="k56-1j-ay9"/>
                                                     </constraints>
-                                                    <state key="normal" title="Button"/>
+                                                    <state key="normal" title="Button" image="unmark"/>
+                                                    <state key="selected" image="bookmark"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="wpt-Oh-EVN" firstAttribute="top" secondItem="gYd-SA-gXE" secondAttribute="top" constant="5" id="2nh-2d-9f6"/>
-                                                <constraint firstAttribute="trailing" secondItem="wpt-Oh-EVN" secondAttribute="trailing" constant="30" id="FNP-fi-soD"/>
+                                                <constraint firstItem="wpt-Oh-EVN" firstAttribute="top" secondItem="gYd-SA-gXE" secondAttribute="top" constant="-2" id="2nh-2d-9f6"/>
+                                                <constraint firstAttribute="trailing" secondItem="wpt-Oh-EVN" secondAttribute="trailing" constant="40" id="FNP-fi-soD"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -110,6 +111,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="qrs-Zz-x1E" id="uUO-9Q-jga"/>
+                                    <outlet property="delegate" destination="qrs-Zz-x1E" id="VWm-2V-Zq5"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -195,5 +200,7 @@
     </scenes>
     <resources>
         <image name="Home" width="25" height="25"/>
+        <image name="bookmark" width="90" height="67"/>
+        <image name="unmark" width="614" height="460"/>
     </resources>
 </document>

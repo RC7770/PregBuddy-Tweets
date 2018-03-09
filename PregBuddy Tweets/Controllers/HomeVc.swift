@@ -46,7 +46,6 @@ class HomeVc: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Create a single prototype cell for height calculations.
-
         self.prototypeCell = TWTRTweetTableViewCell(style: .default, reuseIdentifier: tweetTableCellReuseIdentifier) as? HomeTweetCell
 
         setUp()
@@ -56,6 +55,17 @@ class HomeVc: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         // Do not trigger another request if one is already in progress.
+        switch currentSelected {
+        case .recent:
+            loadRecentTweets(with: "")
+            break
+        case .liked:
+            loadTop10LikedTweets()
+            break
+        case .reTweets:
+            loadTop10ReTweets()
+            break
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,15 +97,20 @@ class HomeVc: UIViewController {
     @IBAction func btnActions(_ sender: UIButton) {        
         if sender == btnRecent{
             currentSelected = .recent
-           selctedButtonsAction(btnSelected: sender, first: btnTopLiked, second: btnTopRetweets)
+            tweets = tweetsRecent;
+            selctedButtonsAction(btnSelected: sender, first: btnTopLiked, second: btnTopRetweets)
+            
         }else if sender == btnTopLiked{
             currentSelected = .liked
+            tweets = tweetsLiked;
             selctedButtonsAction(btnSelected: sender, first: btnRecent, second: btnTopRetweets)
             
         }else if sender == btnTopRetweets{
+            tweets = tweetsRetweets;
             currentSelected = .reTweets
             selctedButtonsAction(btnSelected: sender, first: btnRecent, second: btnTopLiked)
         }
+        tblHomeTweets.reloadData()
     }
     
     @objc func btnBookmarkClicked(_ sender: UIButton){
@@ -109,8 +124,61 @@ class HomeVc: UIViewController {
     // MARK :-
     // MARK: - Load Tweets
     
-    func loadRecentTweets(){
+    func loadRecentTweets(with strSince:String){
+        if self.tweets.count >= 100 {
+            return;
+        }
+        var params = ["q":"pregnancy","result_type": "recent","count":"20"]
         
+        if strSince != "" {
+            params = ["q":"pregnancy","result_type": "recent","count":"20","max_id":strSince]
+        }
+        self.loadTweets(with: params, toAdd: tweetsRecent, selected: currentSelected)
+    }
+    func loadTop10LikedTweets(){
+        
+    }
+    func loadTop10ReTweets(){
+        
+    }
+    fileprivate func loadTweets(with params:[String:String],toAdd arrTweets:[TWTRTweet],selected:TweetTypes){
+        var arrTweets = arrTweets
+        let client = TWTRAPIClient()
+        ///search/tweets.json
+        let statusesShowEndpoint = "https://api.twitter.com/1.1/search/tweets.json"
+        var clientError : NSError?
+        let request = client.urlRequest(withMethod: "GET", url: statusesShowEndpoint, parameters: params, error: &clientError)
+        client.sendTwitterRequest(request) { (response, data, connectionError) -> Void in
+            self.isLoadingTweets = false
+            if connectionError != nil {
+                print("Error: \(String(describing: connectionError))")
+            }
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String:AnyObject]
+                let me = json!["statuses"] as? [[AnyHashable:Any]]
+                for obj : [AnyHashable:Any] in me! {
+                    let i = TWTRTweet(jsonDictionary: obj)
+                    arrTweets.append(i!)
+                }
+                self.tweets = arrTweets
+                switch selected {
+                case .recent:
+                    self.tweetsRecent = arrTweets
+                    break
+                case .liked:
+                    self.tweetsLiked = arrTweets
+                    break
+                case .reTweets:
+                    self.tweetsRetweets = arrTweets
+                    break
+                }
+                DispatchQueue.main.async {
+                    self.tblHomeTweets.reloadData()
+                }
+            } catch let jsonError as NSError {
+                print("json error: \(jsonError.localizedDescription)")
+            }
+        }
     }
     
 
@@ -139,10 +207,13 @@ extension HomeVc :UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Retrieve the Tweet cell.
-        if indexPath.row == tweets.count - 2{
-            let t = tweets.last
-           // loadTweets(with: (t?.tweetID)!)
+        if currentSelected == .recent {
+            if indexPath.row == tweets.count - 2{
+                let t = tweets.last
+                loadRecentTweets(with: (t?.tweetID)!)
+            }
         }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: tweetTableCellReuseIdentifier, for: indexPath) as! HomeTweetCell
         
         // Assign the delegate to control events on Tweets.

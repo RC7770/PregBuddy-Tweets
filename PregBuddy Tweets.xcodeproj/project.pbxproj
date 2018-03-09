@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7A2212D6DE9D2EDAA11A6644 /* Pods_PregBuddy_Tweets.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F1FE0D9EC85825D8674091 /* Pods_PregBuddy_Tweets.framework */; };
 		EB2DAD9320523BC800C15D07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DAD9220523BC800C15D07 /* AppDelegate.swift */; };
-		EB2DAD9520523BC800C15D07 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DAD9420523BC800C15D07 /* ViewController.swift */; };
 		EB2DAD9820523BC800C15D07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB2DAD9620523BC800C15D07 /* Main.storyboard */; };
 		EB2DAD9A20523BC800C15D07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB2DAD9920523BC800C15D07 /* Assets.xcassets */; };
 		EB2DAD9D20523BC800C15D07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB2DAD9B20523BC800C15D07 /* LaunchScreen.storyboard */; };
@@ -17,6 +16,8 @@
 		EB2DADB320523BC800C15D07 /* PregBuddy_TweetsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DADB220523BC800C15D07 /* PregBuddy_TweetsUITests.swift */; };
 		EB2DADC12052415900C15D07 /* HomeVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DADC02052415900C15D07 /* HomeVc.swift */; };
 		EB2DADC32052416800C15D07 /* BookmarkVc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DADC22052416800C15D07 /* BookmarkVc.swift */; };
+		EB2DADC5205245FB00C15D07 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2DADC4205245FB00C15D07 /* AppColors.swift */; };
+		EB350E2620524CC00076EF6B /* HomeTweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB350E2520524CC00076EF6B /* HomeTweetCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +43,6 @@
 		65B71B8D12114A684CEE58C2 /* Pods-PregBuddy Tweets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PregBuddy Tweets.release.xcconfig"; path = "Pods/Target Support Files/Pods-PregBuddy Tweets/Pods-PregBuddy Tweets.release.xcconfig"; sourceTree = "<group>"; };
 		EB2DAD8F20523BC800C15D07 /* PregBuddy Tweets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PregBuddy Tweets.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB2DAD9220523BC800C15D07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EB2DAD9420523BC800C15D07 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EB2DAD9720523BC800C15D07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EB2DAD9920523BC800C15D07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EB2DAD9C20523BC800C15D07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -55,6 +55,8 @@
 		EB2DADB420523BC800C15D07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB2DADC02052415900C15D07 /* HomeVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVc.swift; sourceTree = "<group>"; };
 		EB2DADC22052416800C15D07 /* BookmarkVc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkVc.swift; sourceTree = "<group>"; };
+		EB2DADC4205245FB00C15D07 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		EB350E2520524CC00076EF6B /* HomeTweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTweetCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,14 +119,14 @@
 		EB2DAD9120523BC800C15D07 /* PregBuddy Tweets */ = {
 			isa = PBXGroup;
 			children = (
-				EB2DAD9220523BC800C15D07 /* AppDelegate.swift */,
-				EB2DAD9420523BC800C15D07 /* ViewController.swift */,
-				EB2DADC02052415900C15D07 /* HomeVc.swift */,
-				EB2DADC22052416800C15D07 /* BookmarkVc.swift */,
-				EB2DAD9620523BC800C15D07 /* Main.storyboard */,
+				EB2DAD9E20523BC800C15D07 /* Info.plist */,
 				EB2DAD9920523BC800C15D07 /* Assets.xcassets */,
 				EB2DAD9B20523BC800C15D07 /* LaunchScreen.storyboard */,
-				EB2DAD9E20523BC800C15D07 /* Info.plist */,
+				EB2DAD9220523BC800C15D07 /* AppDelegate.swift */,
+				EB2DADC6205247BD00C15D07 /* Helper */,
+				EB2DADC7205247D100C15D07 /* Controllers */,
+				EB350E2420524C8D0076EF6B /* CustomeCells */,
+				EB2DADC8205247F000C15D07 /* Stroryboards */,
 			);
 			path = "PregBuddy Tweets";
 			sourceTree = "<group>";
@@ -145,6 +147,39 @@
 				EB2DADB420523BC800C15D07 /* Info.plist */,
 			);
 			path = "PregBuddy TweetsUITests";
+			sourceTree = "<group>";
+		};
+		EB2DADC6205247BD00C15D07 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				EB2DADC4205245FB00C15D07 /* AppColors.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		EB2DADC7205247D100C15D07 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EB2DADC02052415900C15D07 /* HomeVc.swift */,
+				EB2DADC22052416800C15D07 /* BookmarkVc.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EB2DADC8205247F000C15D07 /* Stroryboards */ = {
+			isa = PBXGroup;
+			children = (
+				EB2DAD9620523BC800C15D07 /* Main.storyboard */,
+			);
+			path = Stroryboards;
+			sourceTree = "<group>";
+		};
+		EB350E2420524C8D0076EF6B /* CustomeCells */ = {
+			isa = PBXGroup;
+			children = (
+				EB350E2520524CC00076EF6B /* HomeTweetCell.swift */,
+			);
+			path = CustomeCells;
 			sourceTree = "<group>";
 		};
 		F6A5F3F492D07E9754D66EC1 /* Frameworks */ = {
@@ -349,8 +384,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB2DADC12052415900C15D07 /* HomeVc.swift in Sources */,
-				EB2DAD9520523BC800C15D07 /* ViewController.swift in Sources */,
 				EB2DADC32052416800C15D07 /* BookmarkVc.swift in Sources */,
+				EB2DADC5205245FB00C15D07 /* AppColors.swift in Sources */,
+				EB350E2620524CC00076EF6B /* HomeTweetCell.swift in Sources */,
 				EB2DAD9320523BC800C15D07 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

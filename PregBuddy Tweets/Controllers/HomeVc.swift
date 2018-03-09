@@ -126,8 +126,8 @@ class HomeVc: UIViewController {
             loadTop10LikedTweets()
             
         }else if sender == btnTopRetweets{
-            tweets = tweetsRetweets;
             currentSelected = .reTweets
+            tweets = tweetsRetweets;
             selctedButtonsAction(btnSelected: sender, first: btnRecent, second: btnTopLiked)
             loadTop10ReTweets()
         }
@@ -137,15 +137,29 @@ class HomeVc: UIViewController {
     @objc func btnBookmarkClicked(_ sender: UIButton){
         let tag = sender.tag
         let tweet = self.tweets[tag]
-        bookMarkedTweets.append(tweet.tweetID)
-        UserDefaults.standard.set(bookMarkedTweets, forKey: UserDefaults.Keys.bookmark)
-        UserDefaults.standard.synchronize()
-        appDelegate.bookmarkTweets.append(tweet)
         if sender.isSelected {
+            // unBook
+            let newRecords = bookMarkedTweets.filter({
+                $0 != tweet.tweetID
+            })
+            bookMarkedTweets = newRecords
+            
+            let newBook = appDelegate.bookmarkTweets.filter({
+                $0 != tweet
+            })
+            appDelegate.bookmarkTweets = newBook
             sender.isSelected = false
         }else{
+            //book
+            if !bookMarkedTweets.contains(tweet.tweetID){
+                appDelegate.bookmarkTweets.append(tweet)
+                bookMarkedTweets.append(tweet.tweetID)
+            }
             sender.isSelected = true
         }
+        UserDefaults.standard.set(bookMarkedTweets, forKey: UserDefaults.Keys.bookmark)
+        UserDefaults.standard.synchronize()
+
     }
     
     // MARK :-
@@ -168,12 +182,14 @@ class HomeVc: UIViewController {
         self.loadTweets(with: params, toAdd: tweetsRecent, selected: currentSelected)
     }
     fileprivate func loadTop10LikedTweets(){
+        self.tweetsLiked.removeAll()
         let params = ["q":keyword,"result_type": "popular","count":"50"]
         self.loadTweets(with: params, toAdd: tweetsLiked, selected: currentSelected)
 
 
     }
     fileprivate func loadTop10ReTweets(){
+        self.tweetsRetweets.removeAll()
         let params = ["q":keyword,"result_type": "mixed","count":"50"]
         self.loadTweets(with: params, toAdd: tweetsLiked, selected: currentSelected)
     }
@@ -201,9 +217,14 @@ class HomeVc: UIViewController {
                 }
                 let json = try JSONSerialization.jsonObject(with: data!, options: []) as? [String:AnyObject]
                 let me = json!["statuses"] as? [[AnyHashable:Any]]
+                let oldIds :[String] = arrTweets.flatMap({$0.tweetID})
                 for obj : [AnyHashable:Any] in me! {
                     let i = TWTRTweet(jsonDictionary: obj)
-                    arrTweets.append(i!)
+                    if !oldIds.contains((i?.tweetID)!) {
+                        arrTweets.append(i!)
+                    }else{
+                        print("")
+                    }
                 }
                 switch selected {
                 case .recent:
@@ -214,7 +235,6 @@ class HomeVc: UIViewController {
                     arrTweets.sort(by: { (t0, t1) -> Bool in
                         t0.likeCount > t1.likeCount
                     })
-                    self.tweetsLiked.removeAll()
                     for twee in arrTweets{
                         if self.tweetsLiked.count < 10{
                             self.tweetsLiked.append(twee)
@@ -226,8 +246,12 @@ class HomeVc: UIViewController {
                     arrTweets.sort(by: { (t0, t1) -> Bool in
                         t0.retweetCount > t1.retweetCount
                     })
-                    self.tweetsRetweets.removeAll()
-                    for twee in arrTweets{
+                    let allIds :[String] = arrTweets.flatMap({$0.tweetID})
+                    let unique = Array(Set(allIds))
+                    let uniqueReTweets =  arrTweets.filter({
+                        unique.contains($0.tweetID)
+                    })
+                    for twee in uniqueReTweets{
                         if self.tweetsRetweets.count < 10{
                             self.tweetsRetweets.append(twee)
                         }else{break}
